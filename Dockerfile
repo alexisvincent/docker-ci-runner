@@ -6,10 +6,7 @@ LABEL MAINTAINER="Alexis Vincent <mail@alexisvincent.io>"
 ENV DOCKER_DRIVER=overlay
 ENV LANG C.UTF-8
 
-ENV GCLOUD_SDK_VERSION=184.0.0
-ENV GCLOUD_SDK_URL=https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_SDK_VERSION}-linux-x86_64.tar.gz
-
-# - INSTALL JAVA --------------------------------------------------------------------------------------------------
+# - install basic tools --------------------------------------------------------------------------------------------------
 RUN set -x \
 	&& apk update \
 	&& apk add --no-cache \
@@ -48,8 +45,10 @@ RUN apk add --no-cache --virtual=build-dependencies wget ca-certificates unzip &
 RUN curl -L "https://github.com/gliderlabs/sigil/releases/download/v0.4.0/sigil_0.4.0_$(uname -sm|tr \  _).tgz" | tar -zxC /usr/local/bin
 
 # - Install clojure cli -----------------------------------------------------------------------------------------------
-RUN curl -sSL https://download.clojure.org/install/linux-install-1.9.0.302.sh | bash \
- && clojure -e "(println \"downloaded deps...\")"
+RUN curl -sSL https://download.clojure.org/install/linux-install-1.9.0.302.sh -O clojure-install.sh && \
+    bash ./clojure-install.sh && \
+		rm ./clojure-install.sh && \
+		clojure -e "(println \"downloaded deps...\")"
 
 # Set boot configuration args
 ENV BOOT_CLOJURE_VERSION=1.9.0
@@ -69,6 +68,9 @@ RUN cd /usr/local/bin && \
 		boot -u
 
 # Install gcloud and kubectl cli utilities
+ENV GCLOUD_SDK_VERSION=184.0.0
+ENV GCLOUD_SDK_URL=https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_SDK_VERSION}-linux-x86_64.tar.gz
+
 RUN mkdir /opt && \
 	cd /opt && \
 	curl -q ${GCLOUD_SDK_URL} | tar zxf - && \
