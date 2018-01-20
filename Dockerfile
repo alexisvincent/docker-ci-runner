@@ -57,9 +57,10 @@ ENV BOOT_JVM_OPTIONS=" \
 	-XX:+TieredCompilation \
 	-XX:TieredStopAtLevel=1 \
 	-Xmx2g \
-	-XX:+UseConcMarkSweepGC \
 	-XX:+CMSClassUnloadingEnabled \
 	-Xverify:none"
+
+COPY tools.clj /usr/local/bin/tools
 
 # Install boot && initialize cache
 RUN cd /usr/local/bin && \
