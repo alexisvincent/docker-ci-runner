@@ -45,7 +45,7 @@ RUN apk add --no-cache --virtual=build-dependencies wget ca-certificates unzip &
 RUN curl -L "https://github.com/gliderlabs/sigil/releases/download/v0.4.0/sigil_0.4.0_$(uname -sm|tr \  _).tgz" | tar -zxC /usr/local/bin
 
 # - Install clojure cli -----------------------------------------------------------------------------------------------
-RUN curl -sSL https://download.clojure.org/install/linux-install-1.9.0.302.sh -O clojure-install.sh && \
+RUN curl -sSL https://download.clojure.org/install/linux-install-1.9.0.302.sh -o clojure-install.sh && \
     bash ./clojure-install.sh && \
 		rm ./clojure-install.sh && \
 		clojure -e "(println \"downloaded deps...\")"
