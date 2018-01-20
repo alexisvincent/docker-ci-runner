@@ -77,7 +77,3 @@ RUN mkdir /opt && \
 	echo Y | /opt/google-cloud-sdk/install.sh && \
 	/opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl --version=${GCLOUD_SDK_VERSION}
 ENV PATH "/opt/google-cloud-sdk/bin:$PATH"
-
-RUN set -x \
-&& apk update \
-&& apk add --no-cache \
